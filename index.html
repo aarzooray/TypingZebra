@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link  rel="icon" type="image/jpg" href="zebra.jpg">
+    <title>Typing Zebra</title>
+  </head>
+
+  <body>
+    <div id="main">
+      <header>
+        <span id="mainHeader">Typing Zebra</span>
+        <span id="subHeader">Practice Makes you to become <strong>Master</strong> of anything.</span>
+      </header>
+
+      <section>
+        <div id="wordsBoxWrapper">
+          <div id="wordsBox"></div>
+        </div>
+        <div id="lowerBox">
+          <input
+            id="typingBox"
+            type="text"
+            placeholder="Type Here..."
+            autocomplete="none"
+            autofocus="none"
+          />
+
+          <div id="timer" class="btn">
+            <i class="ri-timer-line" id="iTimer"></i>
+          </div>
+          <div id="reset" class="btn"><i class="ri-loop-left-line"></i></div>
+        </div>
+      <!-- result Container -->
+      <div  id="resultContainer" class="resCont">
+        <div id="resultHead">
+          Test Result
+        </div>
+        <div id="wpm" >
+        78 WPM
+        </div>
+        <div id="accuracy" class="cont">
+
+        </div>
+        <div id="correctWord" class="cont">
+
+        </div>
+        <div id="wrongWord" class="cont">
+
+        </div>
+      </div>
+      </section>
+
+    </div>
+    <script src="logic.js"></script>
+  </body>
+</html>
