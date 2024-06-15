@@ -1,6 +1,7 @@
 let wordsBox = document.querySelector("#wordsBox");
 let typingBox = document.querySelector("#typingBox");
 
+// words to be filled in typing Box
 let words = [
   "A ",
   "Beautiful ",
@@ -95,8 +96,8 @@ let words = [
   "cloud ",
   "computing ",
   "internet ",
-   "of ", 
-   "things ",
+  "of ",
+  "things ",
   "sustainability ",
   "energy ",
   "efficiency ",
@@ -123,7 +124,7 @@ let words = [
   "data ",
 ];
 
-let generatedSentenceWordsLocator;
+let generatedSentenceWordsLocator; //with id
 let generatedSentenceWordsLocatorNumber;
 
 function sentenceGenerator() {
@@ -145,20 +146,21 @@ function sentenceGenerator() {
 sentenceGenerator();
 let wrongWord = 0;
 let correctWord = 0;
+let typedWord = 0;
 function highlight() {
   let i = 0;
   let k = 0;
   let temp = "";
 
   function updateTemp() {
-    if (i < generatedSentenceWordsLocator.length) {
-      temp = document.querySelector(`#${generatedSentenceWordsLocator[i]}`);
-      temp.classList.add("active");
+    temp = document.querySelector(`#${generatedSentenceWordsLocator[i]}`);
+    // generatedSentenceWordsLocator.shift();
+    // console.log(temp);
+    temp.classList.add("active");
 
-      if (k == 6) {
-        wordsBox.scrollBy({ left: 500, behavior: "smooth" });
-        k = 0;
-      }
+    if (k == 6) {
+      wordsBox.scrollBy({ left: 400, behavior: "smooth" });
+      k = 0;
     }
   }
 
@@ -167,25 +169,43 @@ function highlight() {
   wrongWord = 0;
   let m = 0;
   let correctChar = 0;
+
   let wrongChar = 0;
-  typingBox.addEventListener("input", function () {
-    console.log(typingBox.value, words[generatedSentenceWordsLocatorNumber[i]]);
+  typingBox.addEventListener("input", function (event) {
+    console.log(generatedSentenceWordsLocator);
+
+    // console.log(typingBox.value, words[generatedSentenceWordsLocatorNumber[i]]);
 
     if (
       typingBox.value.length ==
       words[generatedSentenceWordsLocatorNumber[i]].length
     ) {
+      let span2 = document.querySelector(
+        `#${generatedSentenceWordsLocator[i]}`
+      );
+      span2.removeAttribute("id");
+      console.log(span2);
+
+      k++;
+      // generatedSentenceWordsLocator.shift();
+      console.log(generatedSentenceWordsLocator);
+      typedWord++;
       console.log("Hi Boy1");
 
       if (typingBox.value == words[generatedSentenceWordsLocatorNumber[i]]) {
+        // (words[generatedSentenceWordsLocatorNumber[i]]).removeAttribute("id");
+        console.log(words[generatedSentenceWordsLocatorNumber[i]]);
         correctWord++;
+        // dets.preventDefault();
         temp.style.color = "green";
         temp.classList.remove("active");
         i++;
-        k++;
+
         updateTemp(); // Update temp after incrementing i
         typingBox.value = "";
-      } else {
+      } 
+      
+      else {
         wrongWord++;
         temp.style.color = "red";
         temp.classList.remove("active");
@@ -195,7 +215,7 @@ function highlight() {
         typingBox.value = "";
       }
       console.log(wrongWord);
-    } 
+    }
   });
 }
 highlight();
@@ -205,12 +225,16 @@ function resultTamJham() {
   wpm.innerHTML = `${correctWord} ` + "WPM";
 
   let correctWordCont = document.querySelector("#correctWord");
-  correctWordCont.innerHTML = "Correct Word: " + `${correctWord} `;
+  correctWordCont.innerHTML = `<p class="resultCont">Correct Words <p class="resultDataCorrectWord"> ${correctWord}</p></p>`;
 
   let accuracyCont = document.querySelector("#accuracy");
+  accuracyCont.innerHTML =`<p class="resultCont">Accuracy <p class="resultData"> ${((correctWord / typedWord) * 100).toFixed(2)}%</p></p>`
+
+
+
 
   let wrongWordCont = document.querySelector("#wrongWord");
-  wrongWordCont.innerHTML = "Wrong Word: " + `${wrongWord} `;
+  wrongWordCont.innerHTML =`<p class="resultCont">Wrong Words <p class="resultDataWrongWord"> ${wrongWord}</p></p>`;
 }
 
 // timer
