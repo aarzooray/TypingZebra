@@ -1,50 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
-      rel="stylesheet"
-    />
-    <link  rel="icon" type="image/jpg" href="tz.jpg">
-    <title>Typing Zebra</title>
-  </head>
 
-  <body>
-    <div id="main">
-      <header>
-        <span id="mainHeader">Typing Zebra</span>
-        <span id="subHeader">Practice Makes you to become <strong>Master</strong> of anything.</span>
-      </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <link rel="icon" type="image/jpg" href="tz.jpg">
+  <title>Typing Zebra</title>
+</head>
 
-      <section>
-        <div id="wordsBoxWrapper">
-          <div id="wordsBox"></div>
-        </div>
-        <div id="lowerBox">
-          <input
-            id="typingBox"
-            type="text"
-            placeholder="Type Here..."
-            autocomplete="off"
-            
-            autofocus="none"
-          />
+<body>
+  <div id="main">
+    <header>
+      <span id="mainHeader">Typing Zebra</span>
+      <span id="subHeader">Practice Makes you to become <strong>Master</strong> of anything.</span>
+    </header>
 
-          <div id="timer" class="btn">
-            <i class="ri-timer-line" id="iTimer"></i>
+    <section>
+      <div id="featuresBtnCont">
+        <div class="featureBtn" id="login">Login</div>
+        <div class="featureBtn" id="difficultyLevel"><span id="difficultyLevelText"> Toughness</span>
+          <span id="arrow"><i class="ri-arrow-drop-down-line"></i></span>
+          <div id="levels">
+            <li class="levelItem" id="0">Easy</li>
+            <li class="levelItem" id="1">Moderate</li>
+            <li class="levelItem" id="2">Difficult</li>
           </div>
-          <div id="reset" class="btn"><i class="ri-loop-left-line"></i></div>
         </div>
+      </div>
+      <div id="wordsBoxWrapper">
+        <div id="wordsBox"></div>
+      </div>
+      <div id="lowerBox">
+        <input id="typingBox" type="text" placeholder="Type Here..." autocomplete="off" autofocus="none" />
+
+        <div id="timer" class="btn">
+          <!-- <i class="ri-timer-line" id="iTimer"></i> -->
+           <span id="iTimer">1:00</span>
+        </div>
+        <div id="reset" class="btn"><i class="ri-loop-left-line"></i></div>
+      </div>
       <!-- result Container -->
-      <div  id="resultContainer" class="resCont">
+      <div id="resultContainer" class="resCont">
         <div id="resultHead">
           Test Result
         </div>
-        <div id="wpm" >
-        78 WPM
+        <div id="wpm">
+          78 WPM
         </div>
         <div id="accuracy" class="cont">
 
@@ -56,11 +59,31 @@
 
         </div>
       </div>
-      </section>
-<footer>
-  All Right Reserved @Aarzoo 2024
-</footer>
-    </div>
-    <script src="logic.js"></script>
-  </body>
+    </section>
+
+
+    <footer>
+      All Right Reserved @Aarzoo 2024
+    </footer>
+  </div>
+  <div id="loginContainer">
+
+    <header id="loginContainerHeader">Create an Account</header>
+    <input type="text" src="" alt="" name="Nick Name" placeholder="Nick Name"  class="loginContainerInputs" autocomplete="off" autofocus="off"
+      required>
+    <input type="text" src="" alt="" name="Full Name" placeholder="User Name"  class="loginContainerInputs" autocomplete="off" autofocus="off"
+      required>
+    <input type="email" name="Email" placeholder="Email Id" id=""  class="loginContainerInputs" autocomplete="off" autofocus="off" required>
+    <input type="password" name="password" id="" maxlength="15" class="loginContainerInputs"  placeholder="Password">
+    
+
+    <button id="createYourAccount">Create your Account</button>
+<div id="submitMsg">
+  <h2>Your Account has been Succesfully Created!</h2>
+</div>
+
+  </div>
+  <script src="logic.js"></script>
+</body>
+
 </html>
