@@ -429,6 +429,23 @@ visibility: hidden;
     inset 2px 4px 10px rgb(83, 82, 82);
   
 }
+#form
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 40vw;
+    height: 60vh;
+}
+#dashBoard{
+    /* position: relative; */
+    background-color: rgb(172, 179, 179);
+    /* border: 2px solid red; */
+    border-radius: 4px;
+    width: 50vw;
+    height: 90vh;
+}
 #loginContainerHeader{
     width: 100%;
     /* align-items: flex-start; */
@@ -487,4 +504,98 @@ visibility: hidden;
 }
 #submitMsg{
     display: none;
+}
+
+/* dashboard styling */
+#dashBoard
+{
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+}
+#dashBoardTitle{
+    font-weight: 800;
+}
+#nickName{
+    width: 100%;
+    height: 5vh;
+    /* background-color: antiquewhite; */
+    color:white;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 1.5rem;
+}
+#hey{
+    color: green;
+}
+#previousRecords{
+    /* border: 3px solid ; */
+    box-shadow: 1px 2px 3px grey,
+   -1px -2px 3px grey;
+    width: 50%;
+    height:10%;
+}
+#bigContainer{
+    /* border: 2px solid black; */
+    /* background-color: rgb(179, 176, 174); */
+    width: 100%;
+    height: 100%;
+    /* background-color: red; */
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+#smallContainer{
+    position: absolute;
+visibility: hidden;
+    width: 59.6%;
+    padding: 0.4rem ;
+    height: 30%;
+    /* background-color:rgb(136, 138, 136); */
+    box-shadow: inset 2px 3px 10px grey;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.resultContRecords{
+    /* border: 2px solid green; */
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    
+    align-items: center;
+    /* justify-content: center; */
+}
+#wrapper{
+    /* border: 2px solid navajowhite; */
+    width: 100%;
+    margin: 2px 3px;
+    display: flex;
+}
+.resultDataRecords{
+    /* border: 3px solid gold; */
+}
+#downArrow{
+    /* border: 2px solid red; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+ 
+}
+.resultDataWrongWordRecords{
+    color: red;
+font-weight:800;
+}
+.resultDataCorrectWordRecords{
+    color: green;
+font-weight:800;
+}
+#downArrowOpenUp{
+    color: rgb(63, 62, 62);
+    font-size: 2rem;
+    cursor: pointer;
+    transform: rotate(180deg);
+}
+#downArrowOpenUp:hover{
+    color: black;
+
 }

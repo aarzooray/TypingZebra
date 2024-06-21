@@ -37,7 +37,7 @@
 
         <div id="timer" class="btn">
           <!-- <i class="ri-timer-line" id="iTimer"></i> -->
-           <span id="iTimer">1:00</span>
+          <span id="iTimer">1:00</span>
         </div>
         <div id="reset" class="btn"><i class="ri-loop-left-line"></i></div>
       </div>
@@ -67,21 +67,36 @@
     </footer>
   </div>
   <div id="loginContainer">
+    <div id="form">
 
-    <header id="loginContainerHeader">Create an Account</header>
-    <input type="text" src="" alt="" name="Nick Name" placeholder="Nick Name"  class="loginContainerInputs" autocomplete="off" autofocus="off"
-      required>
-    <input type="text" src="" alt="" name="Full Name" placeholder="User Name"  class="loginContainerInputs" autocomplete="off" autofocus="off"
-      required>
-    <input type="email" name="Email" placeholder="Email Id" id=""  class="loginContainerInputs" autocomplete="off" autofocus="off" required>
-    <input type="password" name="password" id="" maxlength="15" class="loginContainerInputs"  placeholder="Password">
-    
 
-    <button id="createYourAccount">Create your Account</button>
-<div id="submitMsg">
-  <h2>Your Account has been Succesfully Created!</h2>
-</div>
+      <header id="loginContainerHeader">Create an Account</header>
+      <input type="text" src="" alt="" name="Nick Name" placeholder="Nick Name" class="loginContainerInputs"
+        autocomplete="off" autofocus="off" required>
+      <input type="text" src="" alt="" name="Full Name" placeholder="User Name" class="loginContainerInputs"
+        autocomplete="off" autofocus="off" required>
+      <input type="email" name="Email" placeholder="Email Id" id="" class="loginContainerInputs" autocomplete="off"
+        autofocus="off" required>
+      <input type="password" name="password" id="" maxlength="15" class="loginContainerInputs" placeholder="Password">
 
+
+      <button id="createYourAccount">Create your Account</button>
+      <div id="submitMsg">
+        <h2>Your Account has been Succesfully Created!</h2>
+      </div>
+    </div>
+    <div id="dashBoard">
+      <div id="dashBoardTitle">Dash Board</div>
+      <div id="info">
+        <span id="nickName">
+
+        </span>
+        
+      </div>
+      <div id="previousRecords">
+
+      </div>
+    </div>
   </div>
   <script src="logic.js"></script>
 </body>

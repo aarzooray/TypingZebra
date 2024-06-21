@@ -378,6 +378,23 @@ let words = [
   ],
 ];
 
+
+function resetingSentence() {
+
+typingBox.removeAttribute("disabled","true");
+  // document.querySelector("#resultContainer").style.visibility = "hidden";
+  let resetBtn = document.querySelector("#reset");
+  resetBtn.addEventListener("click",function(){
+    location.reload();
+    wordsBox.innerHTML = "";
+    typingBox.value = ""
+    sentenceGenerator();
+    highlight_And_Correctness_Check();
+    timerTamJham()
+  })
+
+}
+resetingSentence();
 //_______________ toughness Level__________________________
 let levels = document.querySelector("#levels");
 let difficultyLevel = document.querySelector("#difficultyLevel");
@@ -409,7 +426,8 @@ for (let a = 0; a < 3; a++) {
     difficultyLevelText.innerHTML = levelItems[a].innerHTML;
 
     sentenceGenerator();
-    highlight();
+    highlight_And_Correctness_Check();
+    resultTamJham()
   });
 }
 
@@ -438,7 +456,7 @@ function sentenceGenerator() {
     // updatetempWordSelection()
     generatedSentenceWordsLocatorNumber.push(randomNumber);
   }
-  console.log(generatedSentenceWordsLocatorNumber) //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+  console.log(generatedSentenceWordsLocator) //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 }
 sentenceGenerator();
 
@@ -450,18 +468,15 @@ sentenceGenerator();
 let no_Of_WrongWords = 0;
 let no_Of_Correct_Words = 0;
 let no_Of_Typed_Words = 0;
-let tempWordSelection = null;
 
 function highlight_And_Correctness_Check() {
-  let i = 0; // i is for address in id book of words collection in word box
+  let i = 0;
   let tempWordSelection = "";
   let x = 0;
 
   function updatetempWordSelection() {
-    console.log(tempWordSelection)
     tempWordSelection = document.querySelector(`#${generatedSentenceWordsLocator[i]}`);
     tempWordSelection.classList.add("active");
-    console.log(tempWordSelection)
   }
   updatetempWordSelection();
 
@@ -471,21 +486,14 @@ function highlight_And_Correctness_Check() {
   let m = 0;
   let correctChar = 0;
   let charNum = 0;
-
   let wrongChar = 0;
   let charCount = 0;
   let val = 0;
   let typedVal = 0;
-
-  console.log(generatedSentenceWordsLocator)// $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
   let goneInSpaceTerminate = 0;
 
-  //  For ******** Space ********* Terminate *************
-  typingBox.addEventListener("keypress", function (event) {
+  function handleSpaceTerminate(event) {
     if (typedVal < (words[touchNum][generatedSentenceWordsLocatorNumber[i]].length - 1)) {
-      // console.log("Typed Value" + typedVal)
-
-
       if (event.key == ' ') {
         no_Of_Typed_Words++;
         no_Of_WrongWords++;
@@ -497,73 +505,47 @@ function highlight_And_Correctness_Check() {
         i++;
         goneInSpaceTerminate++;
         typingBox.value = null;
-        // typingBox.value = typingBox.value.replace(/\s/g, '');
-        updatetempWordSelection(); // Update tempWordSelection after incrementing i
-
+        updatetempWordSelection();
       }
     }
-  });
+  }
 
-
-  // For ************ General INPUT******************
-  typingBox.addEventListener("input", function () {
-
+  function handleInput() {
     if (goneInSpaceTerminate > 0) {
-
       typingBox.value = typingBox.value.replace(/\s/g, '');
     }
     goneInSpaceTerminate = 0;
     typedVal = typingBox.value.length;
 
-
-
-
-    if (
-      typingBox.value.length ==
-      words[touchNum][generatedSentenceWordsLocatorNumber[i]].length
-    ) {
+    if (typingBox.value.length == words[touchNum][generatedSentenceWordsLocatorNumber[i]].length) {
       no_Of_Typed_Words++;
-      // alert(no_Of_Typed_Words)
-      tempWordSelection = document.querySelector(`#${generatedSentenceWordsLocator[i]}`)
-
-      // ****** TO REMOVE UNUSUAL BEHAVIOUR IN Repetition CASE******
+      tempWordSelection = document.querySelector(`#${generatedSentenceWordsLocator[i]}`);
       let span2 = document.querySelector(`#${generatedSentenceWordsLocator[i]}`);
       span2.removeAttribute("id");
 
-      // console.log("Hi Boy1");
-      console.log(tempWordSelection)
-
-      //  **** if TYPED WORD Became CORRECT ****
       if (typingBox.value == words[touchNum][generatedSentenceWordsLocatorNumber[i]]) {
-        console.log(words[touchNum][generatedSentenceWordsLocatorNumber[i]])
         no_Of_Correct_Words++;
         charCount = 0;
         tempWordSelection.style.color = "green";
         tempWordSelection.classList.remove("active");
         i++;
-        updatetempWordSelection(); // Update tempWordSelection after incrementing i
+        tempWordSelection = "";
+        updatetempWordSelection();
         typingBox.value = "";
-      }
-      else {
+      } else {
         no_Of_WrongWords++;
         charCount = 0;
         tempWordSelection.style.color = "red";
         tempWordSelection.classList.remove("active");
         i++;
-        updatetempWordSelection(); // Update tempWordSelection after incrementing i
-        // no_Of_Typed_Words++;
+        updatetempWordSelection();
         typingBox.value = "";
       }
     }
 
-
-    // *** counting Characters for SCROLL the WORDSBOX *****
     if (words[touchNum][generatedSentenceWordsLocatorNumber[i]].charAt(charCount)) {
-      // console.log( words[touchNum][generatedSentenceWordsLocatorNumber[i]].charAt(charCount));
-
       charCount++;
       charNum++;
-      // console.log(charNum);
       var charLimiter = 89;
       if (charNum == charLimiter) {
         wordsBox.scrollBy({ left: 785, behavior: "smooth" });
@@ -571,15 +553,79 @@ function highlight_And_Correctness_Check() {
         charLimiter = charLimiter - 2;
       }
     }
-  });
+  }
+
+  typingBox.removeEventListener("keypress", handleSpaceTerminate);
+  typingBox.removeEventListener("input", handleInput);
+  typingBox.addEventListener("keypress", handleSpaceTerminate);
+  typingBox.addEventListener("input", handleInput);
 }
 highlight_And_Correctness_Check();
+var dateAndTimeArray = [];
+function dateAndTime(){
+  var now = new Date();
+  var year = now.getFullYear();
+  var month = now.getMonth() + 1;
+  var day = now.getDate();
+  var hour = now.getHours();
+  var minute = now.getMinutes();
 
+var monthInWords;
+  switch(month){
+    case 1:
+      monthInWords = "January";
+      break;
+    case 2:
+      monthInWords = "February";
+      break;
+    case 3:
+      monthInWords = "March";
+      break;
+    case 4:
+      monthInWords = "April";
+      break;
+    case 5:
+      monthInWords = "May";
+      break;
+    case 6:
+      monthInWords = "June";
+      break;
+    case 7:
+      monthInWords = "July";
+      break;
+    case 8:
+      monthInWords = "August";
+      break;
+    case 9:
+      monthInWords = "September";
+      break;
+    case 10:
+      monthInWords = "October";
+      break;
+    case 11:
+      monthInWords = "November";
+      break;
+    case 12:
+      monthInWords = "December";
+      break;
+  }
+  let newDate = [[year],[monthInWords],[day],[hour],[minute]];
+   dateAndTimeArray.push(newDate);
+  console.log(dateAndTimeArray)
 
+}
+
+let wpmArray = [];
+let accuracyArray = [];
 // ********* Logic for Result Shown Up**************
 
 function resultTamJham() {
+
+dateAndTime();
+
+
   let wpm = document.querySelector("#wpm");
+  wpmArray.push(no_Of_Correct_Words);
   wpm.innerHTML = `${no_Of_Correct_Words} ` + "WPM";
 
   let correctWords = document.querySelector("#correctWord");
@@ -587,16 +633,21 @@ function resultTamJham() {
 
 
   let accuracyCont = document.querySelector("#accuracy");
+  let accuracyValue = ((no_Of_Correct_Words / no_Of_Typed_Words) *
+  100).toFixed(3);
   accuracyCont.innerHTML = `<p class="resultCont">Accuracy <p class="resultData"> ${(
     (no_Of_Correct_Words / no_Of_Typed_Words) *
     100
   ).toFixed(2)}%</p></p>`;
-
+  accuracyArray.push(accuracyValue)
+ 
+  
   let wrongWords = document.querySelector("#wrongWord");
   wrongWords.innerHTML = `<p class="resultCont">Wrong Words <p class="resultData resultDataWrongWord"> ${no_Of_WrongWords}</p></p>`;
 }
 
-// timer
+
+// ********* Logic for Timer**************
 function timerTamJham() {
   typingBox.removeAttribute("disabled", "true");
   typingBox.addEventListener("keypress", timerFun);
@@ -614,7 +665,7 @@ function timerTamJham() {
 
     let timerInterval = setInterval(function () {
       if (count > 0) {
-        // typingBox.removeAttribute("disabled", "true");
+        typingBox.removeAttribute("disabled", "true");
         count--;
       }
       if (count >= 10) {
@@ -631,41 +682,28 @@ function timerTamJham() {
         clearInterval(timerInterval);
         // count = 60;
         let resCont = document.querySelector(".resCont");
-        resultTamJham();
         resCont.classList.add("resContVisibility");
+        resultTamJham();
+        previousRecordsShown();
       }
-    }, 1000);
+    }, 100);
 
     seconds.setAttribute("id", "seconds");
 
     timer.append(seconds);
   }
 }
-
 timerTamJham();
 
-//reseting the sentence
-let reset = document.querySelector("#reset");
-let resultContainer = document.querySelector("#resultContainer");
-reset.addEventListener("click", function () {
-  wordsBox.innerHTML = "";
-  wordsBox.scrollBy({ left: 0, behavior: "smooth" });
-  typingBox.value = "";
-  resultContainer.style.visibility = "hidden";
-  generatedSentenceWordsLocatorNumber = [];
-  typingBox.removeAttribute("disabled", "true");
-  // typingBox.removeAttribute("disabled","true");
-  generatedSentenceWordsLocator = [];
-  sentenceGenerator();
-  i = 0;
-  tempWordSelection = "";
-  highlight_And_Correctness_Check();
-  timerTamJham();
-});
-
-// Login Container Code
 
 
+
+
+
+
+//*******************************************************************************************
+//                                   Login Container Code
+//*******************************************************************************************
 let loginBtn = document.querySelector("#login");
 let main = document.querySelector("#main")
 let loginContainer = document.querySelector("#loginContainer");
@@ -694,24 +732,24 @@ loginBtn.addEventListener("click", function () {
   }
 })
 
-document.addEventListener("click",(event)=>{
-  if((!loginContainer.contains(event.target)) && (loginContainer.style.visibility=="visible") && event.target!=loginBtn){
-   loginContainer.style.visibility = "hidden"
-   for (let i = 0; i < 4; i++) {
+document.addEventListener("click", (event) => {
+  if ((!loginContainer.contains(event.target)) && (loginContainer.style.visibility == "visible") && event.target != loginBtn) {
+    loginContainer.style.visibility = "hidden"
+    for (let i = 0; i < 4; i++) {
 
-    loginContainerInput[i].value = ""
-  }
-  loginContainer.style.visibility = "hidden";
-  main.style.filter = "none"
+      loginContainerInput[i].value = ""
+    }
+    loginContainer.style.visibility = "hidden";
+    main.style.filter = "none"
   }
 })
 
 
 let loginContainerSubmit = document.querySelector("#createYourAccount");
 let isInputFilled = 0;
-for(let i = 0;i<4;i++){
-  loginContainerInput[i].addEventListener("input",()=>{
-    localStorage.setItem(`${loginContainerInput[i].name}`,`${loginContainerInput[i].value}`)
+for (let i = 0; i < 4; i++) {
+  loginContainerInput[i].addEventListener("input", () => {
+    localStorage.setItem(`${loginContainerInput[i].name}`, `${loginContainerInput[i].value}`)
     isInputFilled = 1;
   })
 }
@@ -719,36 +757,102 @@ for(let i = 0;i<4;i++){
 
 
 let loginContainerHeader = document.querySelector("#loginContainerHeader");
-  loginContainerSubmit.addEventListener("click",function(){
-   for(let i=0;i<4;i++){
+loginContainerSubmit.addEventListener("click", function () {
+  for (let i = 0; i < 4; i++) {
     loginContainerInput[i].style.display = "none"
-   }
-   loginContainerSubmit.style.display = " none"
-   loginContainerHeader.innerText = "Your Account has been Succesfully Created"
-   loginContainerHeader.style.textAlign = "center"
-   loginContainerHeader.style.color = "Green"
-
-   loginBtn.innerText = `${localStorage.getItem("Nick Name")}`
-
-  })
-
-  
-  
-  if(localStorage.getItem("Nick Name")==null){
-    
-    loginBtn.innerText = "Login";
   }
-  else{
+  loginContainerSubmit.style.display = " none"
+  loginContainerHeader.innerText = "Your Account has been Succesfully Created"
+  loginContainerHeader.style.textAlign = "center"
+  loginContainerHeader.style.color = "Green"
+
+  loginBtn.innerText = `${localStorage.getItem("Nick Name")}`
+
+})
+
+let formLogin = document.querySelector("#form");
+
+if (localStorage.getItem("Nick Name") == null) {
+
+  loginBtn.innerText = "Login";
+}
+else {
   loginBtn.innerText = `${localStorage.getItem("Nick Name")}`;
+  formLogin.style.display = "none";
 
 }
 
 
 
+//dashboard logic
+let nickName = document.querySelector("#nickName");
+
+nickName.innerHTML = ` <span id="hey">Welcome Back👋</span> ${localStorage.getItem("Nick Name")}`
+
+let previousRecords = document.querySelector("#previousRecords");
+function previousRecordsShown(){
+  let bigContainer = document.createElement('div');
+  bigContainer.setAttribute("id","bigContainer")
+  // let tam =;
+  let amPM;
+  if(dateAndTimeArray[0][3]>=12)
+    {
+amPM = "PM";
+    }
+    else{
+      amPM = "AM"
+    }
+bigContainer.innerHTML =  `<div id="recordWpm">${dateAndTimeArray[0][3]}:${dateAndTimeArray[0][4]} ${amPM} </div>
+<div id="recordDate"> 
+
+${dateAndTimeArray[0][1]} ${dateAndTimeArray[0][2]}</div> <div id="downArrow"><i id="downArrowOpenUp" class="ri-arrow-drop-down-line"></i></div>`;
+
+previousRecords.appendChild(bigContainer);
+
+let smallContainer = document.createElement("div");
+smallContainer.setAttribute("id","smallContainer");
+
+smallContainer.innerHTML = `
+<div id="wrapper">
+<p class="resultContRecords">Accuracy <p class="resultDataRecords"> ${(
+    (no_Of_Correct_Words / no_Of_Typed_Words) *
+    100
+  ).toFixed(2)}%</p></p>
+  </div>
+
+<div id="wrapper">
+<p class="resultContRecords">Correct Words 
+<p class="resultDataRecords resultDataCorrectWordRecords"> ${no_Of_Correct_Words}
+</p>
+</p>
+</div>
+
+<div id="wrapper">
+<p class="resultContRecords">Wrong Words <p class="resultDataRecords resultDataWrongWordRecords"> ${no_Of_WrongWords}</p></p>
+</div>
+`;
+
+previousRecords.appendChild(smallContainer)
+
+let downArrowOpenUp = document.querySelector("#downArrowOpenUp");
+let downArrowOpenUpCounter = 0;
+downArrowOpenUp.addEventListener("click",function(){
+if(downArrowOpenUpCounter==0){
+downArrowOpenUp.style.transform = "rotate(0deg)"
+  smallContainer.style.visibility = "visible";
+  downArrowOpenUpCounter=1;
+}
+else{
+  smallContainer.style.visibility = "hidden";
+  downArrowOpenUp.style.transform = "rotate(180deg)"
+  downArrowOpenUpCounter = 0;
+}
+})
 
 
+}
 
-
+    
 
 
 
