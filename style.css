@@ -643,7 +643,7 @@ header{
     font-size: 1rem
 }
 #lowerBox{
-    height: 8%;
+    height:9%;
 }
 #typingBox{
     font-size:0.9rem;
@@ -670,5 +670,19 @@ header{
 footer{
     height: 10%;
     font-size: 1.1rem;
+}
+#form{
+    width: 100%;
+}
+
+#loginContainer{
+    width: 80%;
+    height: 50%;
+}
+#dashBoard{
+    width: 100%;
+}
+#previousRecords{
+    width: 100%;
 }
 }

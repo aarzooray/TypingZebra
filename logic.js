@@ -1,6 +1,8 @@
 let wordsBox = document.querySelector("#wordsBox");
 let typingBox = document.querySelector("#typingBox");
 
+console.log(typingBox.clientWidth)
+
 // words to be filled in typing Box
 let words = [
   [
@@ -380,15 +382,16 @@ let words = [
 
 
 function resetFun() {
-
   typingBox.removeAttribute("disabled", "true");
   // document.querySelector("#resultContainer").style.visibility = "hidden";
   let resetBtn = document.querySelector("#reset");
   resetBtn.addEventListener("click", function () {
+
     // location.reload();
     wordsBox.innerHTML = "";
     // dateAndTime();
     typingBox.value = ""
+    wordsBox.scrollBy({ left: 0, behavior: "smooth" });
     sentenceGenerator();
     highlight_And_Correctness_Check();
     timerTamJham();
@@ -554,14 +557,28 @@ function highlight_And_Correctness_Check() {
     if (words[touchNum][generatedSentenceWordsLocatorNumber[i]].charAt(charCount)) {
       charCount++;
       charNum++;
-      var charLimiter = 89;
-      if (charNum == charLimiter) {
-        wordsBox.scrollBy({ left: 785, behavior: "smooth" });
-        charNum = 0;
-        charLimiter = charLimiter - 2;
-      }
+      if(typingBox.clientWidth==235)
+        {
+          var charLimiter = 44;
+          if (charNum == charLimiter) {
+            wordsBox.scrollBy({ left: 385, behavior: "smooth" });
+            charNum = 0;
+            charLimiter = charLimiter - 2;
+          }
+        }
+        // charNum = 0;
+        else{
+
+          // var charLimiter = 89;
+          // if (charNum == charLimiter) {
+          //   wordsBox.scrollBy({ left: 785, behavior: "smooth" });
+          //   charNum = 0;
+          //   charLimiter = charLimiter - 2;
+          }
+        }
+     
     }
-  }
+  
 
   typingBox.removeEventListener("keypress", handleSpaceTerminate);
   typingBox.removeEventListener("input", handleInput);
@@ -747,7 +764,7 @@ function timerTamJham() {
         resultTamJham();
         previousRecordsShown();
       }
-    }, 500);
+    }, 1000);
 
     seconds.setAttribute("id", "seconds");
 
