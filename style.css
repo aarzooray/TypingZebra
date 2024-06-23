@@ -599,3 +599,76 @@ font-weight:800;
     color: black;
 
 }
+
+/* responsive codes */
+
+@media (max-width:600px) {
+
+#mainHeader
+{
+    font-size: 1.5rem;
+
+}
+    
+#subHeader{
+    font-size: 0.6rem;
+    text-align: center;
+}
+header{
+    height: 10%;
+}
+#main{
+    width: 98%;
+    height: 100%;
+}
+#featuresBtnCont{
+    /* justify-content: center; */
+    padding-left: 2%;
+    height:6%;
+}
+#login{
+    width: 20%;
+    height: 100%;
+}
+#difficultyLevel{
+    width: 35%;
+    height: 100%;
+}
+#wordsBoxWrapper{
+    /* margin: 2px 5px; */
+    /* border: 2px solid red; */
+    height: 7%;
+}
+#wordsBox{
+    font-size: 1rem
+}
+#lowerBox{
+    height: 8%;
+}
+#typingBox{
+    font-size:0.9rem;
+    width: 60%;
+}
+#timer span{
+    font-size: 1rem;
+}
+#timer{
+    width: 17%;
+
+}
+#timer div{
+    font-size: 0.9rem;
+}
+#reset{
+    width: 15%;
+    font-size: 0.9rem;
+}
+#resultContainer{
+    height: 60%;
+    width: 70%;
+}
+footer{
+    height: 10%;
+    font-size: 1.1rem;
+}
+}
