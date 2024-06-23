@@ -379,22 +379,25 @@ let words = [
 ];
 
 
-function resetingSentence() {
+function resetFun() {
 
-typingBox.removeAttribute("disabled","true");
+  typingBox.removeAttribute("disabled", "true");
   // document.querySelector("#resultContainer").style.visibility = "hidden";
   let resetBtn = document.querySelector("#reset");
-  resetBtn.addEventListener("click",function(){
-    location.reload();
+  resetBtn.addEventListener("click", function () {
+    // location.reload();
     wordsBox.innerHTML = "";
+    // dateAndTime();
     typingBox.value = ""
     sentenceGenerator();
     highlight_And_Correctness_Check();
-    timerTamJham()
+    timerTamJham();
+
   })
 
 }
-resetingSentence();
+
+resetFun();
 //_______________ toughness Level__________________________
 let levels = document.querySelector("#levels");
 let difficultyLevel = document.querySelector("#difficultyLevel");
@@ -424,9 +427,11 @@ for (let a = 0; a < 3; a++) {
   levelItems[a].addEventListener("click", function () {
     touchNum = levelItems[a].getAttribute("id");
     difficultyLevelText.innerHTML = levelItems[a].innerHTML;
-
+    typingBox.removeAttribute("disabled", "true")
     sentenceGenerator();
     highlight_And_Correctness_Check();
+    timerTamJham()
+    dateAndTime();
     resultTamJham()
   });
 }
@@ -477,6 +482,7 @@ function highlight_And_Correctness_Check() {
   function updatetempWordSelection() {
     tempWordSelection = document.querySelector(`#${generatedSentenceWordsLocator[i]}`);
     tempWordSelection.classList.add("active");
+    console.log(tempWordSelection)
   }
   updatetempWordSelection();
 
@@ -527,8 +533,10 @@ function highlight_And_Correctness_Check() {
         no_Of_Correct_Words++;
         charCount = 0;
         tempWordSelection.style.color = "green";
+        console.log(tempWordSelection.getAttribute("style"))
         tempWordSelection.classList.remove("active");
         i++;
+        console.log(`Value of i${i}`)
         tempWordSelection = "";
         updatetempWordSelection();
         typingBox.value = "";
@@ -561,8 +569,11 @@ function highlight_And_Correctness_Check() {
   typingBox.addEventListener("input", handleInput);
 }
 highlight_And_Correctness_Check();
+
+
+
 var dateAndTimeArray = [];
-function dateAndTime(){
+function dateAndTime() {
   var now = new Date();
   var year = now.getFullYear();
   var month = now.getMonth() + 1;
@@ -570,8 +581,8 @@ function dateAndTime(){
   var hour = now.getHours();
   var minute = now.getMinutes();
 
-var monthInWords;
-  switch(month){
+  var monthInWords;
+  switch (month) {
     case 1:
       monthInWords = "January";
       break;
@@ -609,23 +620,74 @@ var monthInWords;
       monthInWords = "December";
       break;
   }
-  let newDate = [[year],[monthInWords],[day],[hour],[minute]];
-   dateAndTimeArray.push(newDate);
-  console.log(dateAndTimeArray)
+  let newDate = [[year], [monthInWords], [day], [hour], [minute]];
+  dateAndTimeArray.push(newDate);
+  
 
 }
 
-let wpmArray = [];
-let accuracyArray = [];
+let wpmArray;
+let accuracyArray;
+let wrongWordsArray;
 // ********* Logic for Result Shown Up**************
+let previousRecordsCont = document.querySelector("#previousRecords");
+
+// previousRecordsCont.style.border = "3px solid red"
+
 
 function resultTamJham() {
+  let accuracyValue = ((no_Of_Correct_Words / no_Of_Typed_Words) *
+    100).toFixed(3);
+  dashBoard.appendChild(previousRecordsCont);
+  dateAndTime();
 
-dateAndTime();
+
+  // ***************************************************
+  let array;
+  // Function to append an element to the array in local storage
+  function appendToLocalStorageArray(key, element) {
+    // Retrieve the array from local storage
+    let array = localStorage.getItem(key);
+
+    // If the array doesn't exist, create a new one
+    if (array === null) {
+      array = [];
+    } else {
+      // Parse the JSON string back into an array
+      array = JSON.parse(array);
+    }
+
+    // Append the new element
+    array.push(element);
+
+    // Convert the array back into a JSON string
+    const arrayString = JSON.stringify(array);
+
+    // Save the updated array back to local storage
+    localStorage.setItem(key, arrayString);
+  }
 
 
-  let wpm = document.querySelector("#wpm");
-  wpmArray.push(no_Of_Correct_Words);
+  const key1 = 'wpmArray';
+  const key2 = 'accuracyArray';
+  const key3 = 'correctWordsArray';
+  const key4 = 'wrongWordsArray';
+  const newElement = no_Of_Correct_Words;
+
+
+
+  appendToLocalStorageArray(key1, newElement);
+  appendToLocalStorageArray(key2, accuracyValue);
+  appendToLocalStorageArray(key3, no_Of_Correct_Words);
+  appendToLocalStorageArray(key4, no_Of_WrongWords);
+
+  wpmArray = JSON.parse(localStorage.getItem(key1));
+  accuracyArray = JSON.parse(localStorage.getItem(key2));
+
+  // ***************************************************
+
+
+
   wpm.innerHTML = `${no_Of_Correct_Words} ` + "WPM";
 
   let correctWords = document.querySelector("#correctWord");
@@ -633,15 +695,14 @@ dateAndTime();
 
 
   let accuracyCont = document.querySelector("#accuracy");
-  let accuracyValue = ((no_Of_Correct_Words / no_Of_Typed_Words) *
-  100).toFixed(3);
+
   accuracyCont.innerHTML = `<p class="resultCont">Accuracy <p class="resultData"> ${(
     (no_Of_Correct_Words / no_Of_Typed_Words) *
     100
   ).toFixed(2)}%</p></p>`;
   accuracyArray.push(accuracyValue)
- 
-  
+
+
   let wrongWords = document.querySelector("#wrongWord");
   wrongWords.innerHTML = `<p class="resultCont">Wrong Words <p class="resultData resultDataWrongWord"> ${no_Of_WrongWords}</p></p>`;
 }
@@ -686,7 +747,7 @@ function timerTamJham() {
         resultTamJham();
         previousRecordsShown();
       }
-    }, 100);
+    }, 500);
 
     seconds.setAttribute("id", "seconds");
 
@@ -712,37 +773,23 @@ let loginContainerInput = document.querySelectorAll(".loginContainerInputs");
 var contWar = 0;
 var janeman = 0;
 
-loginBtn.addEventListener("click", function () {
+function loginBtnClickHand() {
   if (contWar == 0) {
     loginContainer.style.visibility = "visible";
     loginContainer.classList.toggle("animate")
     main.style.filter = "blur(0.8px)"
-    contWar = 1;
-
     // alert("hi")
-  }
-  else {
-    for (let i = 0; i < 4; i++) {
-
-      loginContainerInput[i].value = ""
-    }
-    loginContainer.style.visibility = "hidden";
-    main.style.filter = "none"
     contWar = 0;
-  }
-})
 
-document.addEventListener("click", (event) => {
-  if ((!loginContainer.contains(event.target)) && (loginContainer.style.visibility == "visible") && event.target != loginBtn) {
-    loginContainer.style.visibility = "hidden"
-    for (let i = 0; i < 4; i++) {
-
-      loginContainerInput[i].value = ""
-    }
-    loginContainer.style.visibility = "hidden";
-    main.style.filter = "none"
   }
-})
+
+}
+
+loginBtn.addEventListener("click", loginBtnClickHand);
+//removing the event listner on loginBtn
+
+// loginBtn.removeEventListener("click",loginBtnClickHand);
+
 
 
 let loginContainerSubmit = document.querySelector("#createYourAccount");
@@ -769,16 +816,18 @@ loginContainerSubmit.addEventListener("click", function () {
   loginBtn.innerText = `${localStorage.getItem("Nick Name")}`
 
 })
-
+let dashBoard = document.querySelector("#dashBoard");
 let formLogin = document.querySelector("#form");
 
-if (localStorage.getItem("Nick Name") == null) {
+if (localStorage.getItem("Nick Name") == null || localStorage.getItem("Nick Name") == "") {
 
   loginBtn.innerText = "Login";
+  dashBoard.style.display = "none"
 }
 else {
   loginBtn.innerText = `${localStorage.getItem("Nick Name")}`;
   formLogin.style.display = "none";
+
 
 }
 
@@ -788,38 +837,57 @@ else {
 let nickName = document.querySelector("#nickName");
 
 nickName.innerHTML = ` <span id="hey">Welcome Back👋</span> ${localStorage.getItem("Nick Name")}`
-
+let dashBoardCont = document.querySelector("#dashBoard");
 let previousRecords = document.querySelector("#previousRecords");
-function previousRecordsShown(){
+let cnt = 0;
+function previousRecordsShown() {
+
   let bigContainer = document.createElement('div');
-  bigContainer.setAttribute("id","bigContainer")
+  bigContainer.setAttribute("id", "bigContainer")
   // let tam =;
   let amPM;
-  if(dateAndTimeArray[0][3]>=12)
-    {
-amPM = "PM";
-    }
-    else{
-      amPM = "AM"
-    }
-bigContainer.innerHTML =  `<div id="recordWpm">${dateAndTimeArray[0][3]}:${dateAndTimeArray[0][4]} ${amPM} </div>
+  let zeroCont;
+  if (dateAndTimeArray[cnt][3] >= 12) {
+    amPM = "PM";
+  }
+  else {
+    amPM = "AM"
+  }
+  if (dateAndTimeArray[cnt][4] < 10) {
+    zeroCont = 0;
+  }
+  else {
+    zeroCont = ""
+  }
+
+  bigContainer.innerHTML = `
 <div id="recordDate"> 
 
-${dateAndTimeArray[0][1]} ${dateAndTimeArray[0][2]}</div> <div id="downArrow"><i id="downArrowOpenUp" class="ri-arrow-drop-down-line"></i></div>`;
+${no_Of_Correct_Words} WPM</div>
 
-previousRecords.appendChild(bigContainer);
+<div id="recordWpm">${dateAndTimeArray[cnt][3]}:${zeroCont}${dateAndTimeArray[cnt][4]} ${amPM} </div>
 
-let smallContainer = document.createElement("div");
-smallContainer.setAttribute("id","smallContainer");
 
-smallContainer.innerHTML = `
+
+<div id="recordDate"> 
+
+${dateAndTimeArray[cnt][1]} ${dateAndTimeArray[cnt][2]}</div> 
+
+<div id="downArrow"><i id="downArrowOpenUp"   class="ri-arrow-drop-down-line harryArrow"></i></div>`;
+
+  previousRecords.appendChild(bigContainer);
+
+  let smallContainer = document.createElement("div");
+  smallContainer.setAttribute("id", "smallContainer");
+
+  smallContainer.innerHTML = `
 <div id="wrapper">
 <p class="resultContRecords">Accuracy <p class="resultDataRecords"> ${(
-    (no_Of_Correct_Words / no_Of_Typed_Words) *
-    100
-  ).toFixed(2)}%</p></p>
+      (no_Of_Correct_Words / no_Of_Typed_Words) *
+      100
+    ).toFixed(2)}%</p></p>
   </div>
-
+ 
 <div id="wrapper">
 <p class="resultContRecords">Correct Words 
 <p class="resultDataRecords resultDataCorrectWordRecords"> ${no_Of_Correct_Words}
@@ -832,30 +900,48 @@ smallContainer.innerHTML = `
 </div>
 `;
 
-previousRecords.appendChild(smallContainer)
+  previousRecords.appendChild(smallContainer)
+  dashBoardCont.appendChild(previousRecords)
+  let downArrowOpenUp = document.querySelectorAll(".harryArrow");
+  let smallContainerId = document.querySelectorAll("#smallContainer");
+  let downArrowOpenUpCounter = 0;
+  for (let i = 0; i <= cnt; i++) {
+    downArrowOpenUp[i].addEventListener("click", function () {
+      if (downArrowOpenUpCounter == 0) {
+        downArrowOpenUp[i].style.transform = "rotate(0deg)"
+        smallContainerId[i].style.visibility = "visible";
+        downArrowOpenUpCounter = 1;
+      }
+      else {
+        smallContainerId[i].style.visibility = "hidden";
+        downArrowOpenUp[i].style.transform = "rotate(180deg)"
+        downArrowOpenUpCounter = 0;
+      }
+    })
 
-let downArrowOpenUp = document.querySelector("#downArrowOpenUp");
-let downArrowOpenUpCounter = 0;
-downArrowOpenUp.addEventListener("click",function(){
-if(downArrowOpenUpCounter==0){
-downArrowOpenUp.style.transform = "rotate(0deg)"
-  smallContainer.style.visibility = "visible";
-  downArrowOpenUpCounter=1;
+  }
+
+  cnt++;
+  // alert(cnt)
 }
-else{
-  smallContainer.style.visibility = "hidden";
-  downArrowOpenUp.style.transform = "rotate(180deg)"
-  downArrowOpenUpCounter = 0;
-}
+
+
+
+
+let smallContainer = document.querySelector("#smallContainer");
+document.addEventListener("click", (event) => {
+  if ((!loginContainer.contains(event.target)) && (loginContainer.style.visibility == "visible") && event.target != loginBtn) {
+    // smallContainer.style.visibility = "hidden";
+    loginContainer.style.visibility = "hidden"
+
+    for (let i = 0; i < 4; i++) {
+
+      loginContainerInput[i].value = ""
+    }
+    loginContainer.style.visibility = "hidden";
+    main.style.filter = "none"
+  }
 })
-
-
-}
-
-    
-
-
-
 
 
 
