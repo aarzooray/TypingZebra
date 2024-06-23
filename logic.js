@@ -391,7 +391,7 @@ function resetFun() {
     wordsBox.innerHTML = "";
     // dateAndTime();
     typingBox.value = ""
-    wordsBox.scrollBy({ left: 0, behavior: "smooth" });
+    // wordsBox.scrollBy({ left: 0, behavior: "smooth" });
     sentenceGenerator();
     highlight_And_Correctness_Check();
     timerTamJham();
