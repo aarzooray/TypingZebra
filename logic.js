@@ -1,7 +1,9 @@
 let wordsBox = document.querySelector("#wordsBox");
+
+console.log(wordsBox.scrollWidth)
 let typingBox = document.querySelector("#typingBox");
 
-console.log(typingBox.clientWidth)
+// console.log(typingBox.clientWidth)
 
 // words to be filled in typing Box
 let words = [
@@ -547,6 +549,7 @@ function highlight_And_Correctness_Check() {
         no_Of_WrongWords++;
         charCount = 0;
         tempWordSelection.style.color = "red";
+        console.log(tempWordSelection)
         tempWordSelection.classList.remove("active");
         i++;
         updatetempWordSelection();
@@ -557,7 +560,8 @@ function highlight_And_Correctness_Check() {
     if (words[touchNum][generatedSentenceWordsLocatorNumber[i]].charAt(charCount)) {
       charCount++;
       charNum++;
-      if(typingBox.clientWidth==235)
+      // console.log(charNum)
+      if(typingBox.clientWidth<=235)
         {
           var charLimiter = 44;
           if (charNum == charLimiter) {
@@ -569,22 +573,23 @@ function highlight_And_Correctness_Check() {
         // charNum = 0;
         else{
 
-          // var charLimiter = 89;
-          // if (charNum == charLimiter) {
-          //   wordsBox.scrollBy({ left: 785, behavior: "smooth" });
-          //   charNum = 0;
-          //   charLimiter = charLimiter - 2;
+          var charLimiter = 89;
+          if (charNum == charLimiter) {
+            wordsBox.scrollBy({ left: 785, behavior: "smooth" });
+            charNum = 0;
+            charLimiter = charLimiter - 2;
           }
         }
      
     }
   
-
+  }
   typingBox.removeEventListener("keypress", handleSpaceTerminate);
   typingBox.removeEventListener("input", handleInput);
   typingBox.addEventListener("keypress", handleSpaceTerminate);
   typingBox.addEventListener("input", handleInput);
 }
+
 highlight_And_Correctness_Check();
 
 
@@ -843,6 +848,7 @@ if (localStorage.getItem("Nick Name") == null || localStorage.getItem("Nick Name
 }
 else {
   loginBtn.innerText = `${localStorage.getItem("Nick Name")}`;
+  loginBtn.style.backgroundColor  = "#cf1e1e"
   formLogin.style.display = "none";
 
 

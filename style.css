@@ -343,6 +343,7 @@ footer{
     background-color: rgb(6, 65, 6);
 
 }
+
 #difficultyLevel{
     margin-left: 2rem;
     /* height: 20%; */
@@ -377,16 +378,18 @@ transform: rotate(-90deg);
     /* border: 2px solid green; */
     width: 120%;
     height: 10rem;
+
     display: flex;
     visibility: hidden;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: 3rem;
-    box-shadow: 1px 2px 31px rgb(223, 217, 217), 3px 4px 10px rgb(158, 155, 151);
+    top: 3.3rem;
+
+    box-shadow: 1px 2px 31px rgb(77, 69, 69), 3px 4px 10px rgb(107, 103, 98);
     left: 7rem;
-    /* background-color: rgb(63, 230, 152); */
+    background-color: rgb(176, 180, 178);
     border-radius: 5px;
     /* display: none; */
 }
@@ -400,14 +403,14 @@ transform: rotate(-90deg);
     margin: 2px 2px;
     width: 80%;
     justify-content: center;
-    box-shadow: 2px 1px 2px rgb(7, 36, 15),
-    inset 1px 2px 4px rgb(21, 116, 21);
-    background-color: rgb(63, 230, 152);
+    box-shadow: 2px 1px 2px rgb(34, 43, 36),
+    inset 1px 2px 4px rgb(87, 88, 87);
+    background-color: grey;
     /* background-color: blueviolet; */
     
 }
 #levels li:hover{
-    background-color: rgb(62, 212, 82);
+    background-color: rgb(94, 95, 102);
 }
 
 
@@ -525,12 +528,13 @@ visibility: hidden;
     font-size: 1.5rem;
 }
 #hey{
-    color: green;
+    color: rgb(235, 217, 217);
+    font-weight: bolder;
 }
 .previousRecordsClass{
-    /* border: 3px solid ; */
+    /* border: 3px solid ;
     box-shadow: 1px 2px 3px grey,
-   -1px -2px 3px grey;
+   -1px -2px 3px grey; */
     width: 50%;
     height:10%;
 }
@@ -669,7 +673,7 @@ header{
 }
 footer{
     height: 10%;
-    font-size: 1.1rem;
+    font-size:0.8rem;
 }
 #form{
     width: 100%;
@@ -684,5 +688,8 @@ footer{
 }
 #previousRecords{
     width: 100%;
+}
+#nickName{
+    font-size: 1.3rem;
 }
 }
